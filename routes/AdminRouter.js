@@ -75,8 +75,7 @@ router.post("/PostAdminRegister", function (req, res) {
   if (AdminPassword) {
     bcrypt.hash(AdminPassword, saltRounds).then((encryptedpassword) => {
       const Admin = new AdminDB({
-        FirstAdminName: req.body.FirstAdminName,
-        SecondAdminName: req.body.SecondAdminName,
+        FullAdminName: req.body.FullAdminName,
         AdminPassword: encryptedpassword,
         AdminEmail: req.body.AdminEmail,
       });
@@ -182,8 +181,7 @@ router.post("/updateAdmin", (req, res) => {
           bcrypt.hash(AdminPassword, saltRounds).then((encryptedpassword) => {
     
        AdminDB.findById(AdminID).then((foundAdmin) => {
-        foundAdmin.FirstAdminName = req.body.FirstAdminName;
-        foundAdmin.SecondAdminName= req.body.SecondAdminName;
+        foundAdmin.FullAdminName = req.body.FullAdminName;
         foundAdmin.AdminPassword=encryptedpassword;
         foundAdmin.AdminEmail=req.body.AdminEmail;
  

@@ -4,13 +4,9 @@ let uniqueValidator = require("mongoose-unique-validator");
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-  FirstUserName: {
+  FullUserName: {
     type: String,
     required: [true, "you should fill the Fisrt Name"],
-  },
-  SecondUserName: {
-    type: String,
-    required: [true, "you should fill the Second Name"],
   },
   UserPassword :{
     type: String,

@@ -4,13 +4,9 @@ let uniqueValidator = require("mongoose-unique-validator");
 const Schema = mongoose.Schema;
 
 const AdmainSchema = new Schema({
-  FirstAdminName: {
+  FullAdminName: {
     type: String,
     required: [true, "you should fill the First Name"],
-  },
-  SecondAdminName: {
-    type: String,
-    required: [true, "you should fill the Second Name"],
   },
   AdminPassword :{
     type: String,
