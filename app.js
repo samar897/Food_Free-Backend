@@ -4,9 +4,10 @@ const express = require("express");
 
 //the Below varialbes will be call the Router to use them on app. 
 const AdminRouter = require("./routes/AdminRouter");
-const PrincipalRouter = require("./routes/PrincipalRouter");
+const PrincipalRouter = require("./routes/CommunityRouter");
 const UserRouter = require("./routes/UserRouter");
 const FoodFreeRouter = require("./routes/FoodFreeRouter");
+const CommunityRouter = require("./routes/CommunityRouter");
 
  
 // call the opject from lib step 2
@@ -63,7 +64,7 @@ app.use(cookieParser());
 app.use("/AdminRouter", AdminRouter);
 app.use("/UserRouter", UserRouter);  
 app.use("/FoodFreeRouter", FoodFreeRouter);  
-app.use("/PrincipalRouter",PrincipalRouter); 
+app.use("/CommunityRouter",CommunityRouter); 
 
 
 //to call and connect the server to DB, I will take the ULR to connect from MOngodb db.

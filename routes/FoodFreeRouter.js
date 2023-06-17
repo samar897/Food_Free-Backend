@@ -66,11 +66,11 @@ router2.get("/OneListFoodfree/:FoodFreeID", (req, res) => {
       if (authHeader) {
       
         FoodFreeDB.findById(FoodFreeID).then((FoodFreeDB) => { 
-          res.json({ FoodFreeData : FoodFreeDB});
+          res.json({ FoodFreeData : [FoodFreeDB]});
        
       })
       .catch((error) => {
-        res.json({ error: error.message });
+        res.json({ error: [error.message] });
       
       });
     
@@ -143,7 +143,7 @@ console.log('====================================');
  //res.render("errorMessage.ejs", { data: "Please Login First" });
 }
 });
-
+       
 /*/DeleteFoodFree/:FoodFreeID Done we need to update from two side delete */ 
 
 //to delete courses from db with code 
@@ -218,10 +218,10 @@ console.log('====================================');
     if (authHeader) {
      
       FoodFreeDB.findById(FoodFreeID).then((foodfreevalue) => {
-        foodfreevalue.Food_Free_Name=Food_Free_Name,
-        foodfreevalue.FoodDescription= FoodDescription,       
-        foodfreevalue.AllergyStatus =AllergyStatus,    
-        foodfreevalue.RequestStatus =RequestStatus,
+        foodfreevalue.Food_Free_Name=Food_Free_Name;
+        foodfreevalue.FoodDescription= FoodDescription;       
+        foodfreevalue.AllergyStatus =AllergyStatus; 
+        foodfreevalue.RequestStatus =RequestStatus;
         
              
         foodfreevalue.save().then(() => {

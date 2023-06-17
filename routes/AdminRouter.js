@@ -182,12 +182,11 @@ router.post("/updateAdmin", (req, res) => {
           bcrypt.hash(AdminPassword, saltRounds).then((encryptedpassword) => {
     
        AdminDB.findById(AdminID).then((foundAdmin) => {
-        foundAdmin.FirstAdminName = req.body.FirstAdminName,
-        foundAdmin.SecondAdminName= req.body.SecondAdminName,
-        foundAdmin.AdminPassword=encryptedpassword,
-        foundAdmin.AdminEmail=req.body.AdminEmail,
+        foundAdmin.FirstAdminName = req.body.FirstAdminName;
+        foundAdmin.SecondAdminName= req.body.SecondAdminName;
+        foundAdmin.AdminPassword=encryptedpassword;
+        foundAdmin.AdminEmail=req.body.AdminEmail;
  
-
              foundAdmin.save().then(() => {
           
                 res.json({ Message: "record Updated in DB"});

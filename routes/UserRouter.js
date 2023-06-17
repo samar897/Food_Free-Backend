@@ -214,7 +214,161 @@ router.delete("/UserDeleteFoodFree", isLoggedIn, checkAuthor,(req, res) => {
         });
     });
   });  
+
+
+  router.post("/updateUser", isLoggedIn, checkAuthor, (req, res) => {
+
+    let UserPassword = req.body.UserPassword;
+    //const AdminID = req.session.AdminID;
+   
+    
+    const object = res.locals.object;
+   const Userlogin = object.Userlogin.id; 
   
+   
+    console.log('====================================');
+    console.log(Userlogin+" Userlogin");
+    console.log('====================================');
+    
+    
+    if (Userlogin) {
+      UserDB.findById(Userlogin).then((founduser) => {
+        if(founduser._id!=Userlogin){
+          res.json( { Error: "You are Not Allowed" });
+          //res.render("errorMessage.ejs", { Message: "You are Not Allowed" });
+        } else 
+        {
+          
+          if (UserPassword) {
+          bcrypt.hash(UserPassword, saltRounds).then((encryptedpassword) => {
+      
+          UserDB.findById(Userlogin).then((founduser) => {
+          founduser.FirstUserName= req.body.FirstUserName;
+          founduser.SecondUserName= req.body.SecondUserName;
+          founduser.UserPassword= encryptedpassword;
+          founduser.UserEmail=req.body.UserEmail;
+         
+         
+          founduser.save().then(() => {
+            
+                  res.json({ Message: "record Updated in DB"});
+   
+        })
+          .catch((error) => {
+          
+            console.log("The Record not update");
+            console.log(error.message);
+            res.json({ error: error.message});
+    
+          });
+        
+     
+      
+    });
+  });
+  } else {
+    res.json({ Message: "Password feield is required" });
+  
+  }
+      }
+    });
+  } else {
+
+      res.json({ Error: "Please Login First" });
+  
+     }
+  
+     });
+  
+      
+
+     router.get("/UserProfile", isLoggedIn, checkAuthor, (req, res) => {
+
+
+
+          
+    const object = res.locals.object;
+    const Userlogin = object.Userlogin.id; 
+   
+    
+     console.log('====================================');
+     console.log(Userlogin+" Userlogin");
+     console.log('====================================');
+    
+      if (Userlogin) {
+      
+        UserDB.find().then((founduserinfo) => { 
+       //res.send(courses);
+       res.json({ founduserinfo: [founduserinfo]});
+      
+      })
+      .catch((error) => {
+        res.json({ error: [error.message]});
+        
+      });
+    
+    } else {
+      res.json({ error: ["Please Login First"]});
+     
+    }
+    });      
+
+   
+    router.post("/RequestFoodFree", isLoggedIn, checkAuthor, function (req, res) {
+
+    const object = res.locals.object;
+    const Userlogin = object.Userlogin.id; 
+     
+    //console.log(AdminID + " AdminID ");
+    console.log('====================================');
+    console.log(Userlogin+" authHeader");
+    console.log('====================================');
+     
+      if (Userlogin) {
+        const Food_Free_Name = req.body.Food_Free_Name;
+        const FoodDescription  = req.body.FoodDescription;
+        const AllergyStatus = req.body.AllergyStatus;    
+        const  RequestStatus =false;
+
+       
+
+          
+    
+        UserDB.findById(Userlogin).then((founduser) => {
+      
+              const NewOrderFreefood = new FoodsFreeDB({   
+                Food_Free_Name: Food_Free_Name,
+                FoodDescription: FoodDescription,       
+                AllergyStatus :AllergyStatus,    
+                RequestStatus :RequestStatus,
+                UserFoodAllergy: founduser,       
+              });
+    
+              //to save the data on DB from form
+              NewOrderFreefood.save().then((Foodsavedvalue) => {
+                founduser.userFoodFree.push(Foodsavedvalue);
+                founduser.save().then((usersavedvalue) => {
+               
+                  console.log("record created in DB");
+                  res.json({ Message: "Record Created in DB", Data:[usersavedvalue]});
+          
+              }).catch((error) => {
+                console.log("record not created in DB");
+                console.log(error.message);
+                res.json({ error: error});
+              });
+            })
+            .catch((error) => {
+              console.log("record not created in DB");
+              console.log(error.message);
+              res.json({ error: error});
+            });
+        });
+    } else {
+      res.json({ Message: "Please Login First"});
+   
+    }
+    });
 
   
 
