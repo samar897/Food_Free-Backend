@@ -59,7 +59,7 @@ The server will start on port 8000. You can access the application at http://loc
 ### There are Four Model Database Admin, Community Food Free for the prodect have Allegery food and The user.
 
 
-<img src="/images/DB.png" width="50" height="50">
+<img src="/images/DB.png" width="200" height="200">
 
 
 #### -Routers
@@ -69,7 +69,7 @@ The server will start on port 8000. You can access the application at http://loc
 
 ### For DataBase and JWT on .env file for more protection 
 
-<img src="/images/photo1.png" width="50" height="50">
+<img src="/images/photo1.png" width="200" height="200">
 
 
 #### One for Admin one For User.
