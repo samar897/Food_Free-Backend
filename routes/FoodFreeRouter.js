@@ -23,32 +23,9 @@ and I use Window history.back() with button to go back
 */
 
 
-router2.get("/ListFoodfree",isLoggedIn, checkAuthor ,(req, res) => {
+/* the below code is done */
 
 
-  const object = res.locals.object;
-  const adminlogin = object.adminlogin.id; 
- 
-  //console.log(AdminID + " AdminID ");
-  console.log('====================================');
-  console.log(adminlogin+" authHeader");
-  console.log('====================================');
-
-  if (adminlogin) {
-  
-    FoodFreeDB.find().then((FoodFreeDB) => { 
-      res.json({ FoodFreeData : FoodFreeDB});
-   //res.render("OneListCourses.ejs", { data: courses, foundAdmin});
-  })
-  .catch((error) => {
-    res.json({ error: error.message });
-   // res.render("errorMessage.ejs", { data: error.message });
-  });
-
-} else {
-  res.json({ error: error.message });
-}
-});  
 
 //the control will be get and print the ejs file for OneListCourses for one Course 
 router2.get("/OneListFoodfree/:FoodFreeID",isLoggedIn, checkAuthor, (req, res) => {
@@ -83,12 +60,39 @@ router2.get("/OneListFoodfree/:FoodFreeID",isLoggedIn, checkAuthor, (req, res) =
     } else {
       res.json({ error: error.message });
     }
-    });  
+    }); 
+    
+    
 
-/* the below code is done */
+router2.get("/ListFoodfree",isLoggedIn, checkAuthor ,(req, res) => {
+
+
+  const object = res.locals.object;
+  const adminlogin = object.adminlogin.id; 
+ 
+  //console.log(AdminID + " AdminID ");
+  console.log('====================================');
+  console.log(adminlogin+" adminlogin");
+  console.log('====================================');
+
+  if (adminlogin) {
+  
+    FoodFreeDB.find().then((FoodFreeDB) => { 
+      res.json({ FoodFreeData : FoodFreeDB});
+   //res.render("OneListCourses.ejs", { data: courses, foundAdmin});
+  })
+  .catch((error) => {
+    res.json({ error: error.message });
+   // res.render("errorMessage.ejs", { data: error.message });
+  });
+
+} else {
+  res.json({ error: error.message });
+}
+});  
       
 
-//the action will be to add new courses
+//the action will be to add new Food
 router2.post("/AddnewFoodFree",isLoggedIn, checkAuthor, function (req, res) {
  
 
@@ -159,7 +163,7 @@ console.log('====================================');
        
 /*/DeleteFoodFree/:FoodFreeID Done we need to update from two side delete */ 
 
-//to delete courses from db with code 
+//to delete Food from db with code 
 router2.delete("/DeleteFoodFree/:FoodFreeID",isLoggedIn, checkAuthor, (req, res) => {
 
   
@@ -206,7 +210,7 @@ router2.delete("/DeleteFoodFree/:FoodFreeID",isLoggedIn, checkAuthor, (req, res)
 });
 
 
-//the Last two Control will be update the database for courses  
+//the Last two Control will be update the database for Food  
 router2.post("/FoodFreeUpdate/:FoodFreeID",isLoggedIn, checkAuthor, (req, res) => {
 
   const FoodFreeID = req.params.FoodFreeID;
@@ -215,9 +219,6 @@ router2.post("/FoodFreeUpdate/:FoodFreeID",isLoggedIn, checkAuthor, (req, res) =
 
   const object = res.locals.object;
   const adminlogin = object.adminlogin.id; 
- 
-
-  
  
   //console.log(AdminID + " AdminID ");
   console.log('====================================');
@@ -253,6 +254,10 @@ router2.post("/FoodFreeUpdate/:FoodFreeID",isLoggedIn, checkAuthor, (req, res) =
             console.log("The Record not update");
             res.json({ Message: "The Record not update", error:error.message});
           });
+    }).catch((error) => {
+           
+    
+      res.json({ error:error.message});
     });
   } else {
     res.json({ Message: "Please Login First" });

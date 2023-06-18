@@ -6,21 +6,17 @@ const Schema = mongoose.Schema;
 const CommunitySchema = new Schema({
   TopicName: {
     type: String,
-    required: [true, "you should fill the Fisrt Name"],
+    required: [true, "you should fill the Topic Name"],
   },
   ContentName: {
     type: String,
-    required: [true, "you should fill the Second Name"],
+    required: [true, "you should fill the Content Name"],
   },
   Like :{
-    type: String,
-    selecte: false,
-    require: [true, "you should fill the Password"],
+    type: Number,
     },
     DisLike: {
-    type: String,
-    required: [true, "you should fill the Email"],
-    unique: true,
+    type: Number,
   },
   CommUser: [{
     type: mongoose.Schema.Types.ObjectId,
@@ -35,7 +31,7 @@ const CommunitySchema = new Schema({
 
 CommunitySchema.plugin(uniqueValidator);
 
-const Community = mongoose.model("Community", CommunitySchema);
+const Community = mongoose.model("Communities", CommunitySchema);
 
 module.exports = Community;
 

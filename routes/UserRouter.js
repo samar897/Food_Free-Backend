@@ -98,7 +98,6 @@ router.post("/UserRegister", function (req, res) {
           console.log();
           console.log(error.message);
           res.status(401).json({ errorMessage: error.message });
-          //res.render("InstructorLoginForm.ejs");
         });
     });
   } else {
@@ -135,7 +134,7 @@ router.delete("/UserDeleteFoodFree", isLoggedIn, checkAuthor,(req, res) => {
     const Userlogin = object.Userlogin.id;
  
    // res.json(object);    
-    //console.log(object); 
+  // console.log(object); 
 
         
       UserDB.findById(Userlogin).populate("userFoodFree").then((UserDBresult) => {

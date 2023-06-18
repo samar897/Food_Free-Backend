@@ -2,7 +2,7 @@
 
 const jwt = require("jsonwebtoken");
 
-const User = require("../models/User");
+const UserDB = require("../models/User");
 
 const checkAuthor = (req, res, next) => {
 	try {
@@ -12,20 +12,18 @@ const checkAuthor = (req, res, next) => {
 		res.locals.object = object;
 
 		
-	const userlogin = object.Userlogin.id; 
-
-
-		
+	     const userlogin = object.Userlogin.id; 
+		 console.log(userlogin);
 
 
 
 		//const usercourseID = req.body.usercourseID;
-
-		User.findById(userlogin) 
+		UserDB.findById(userlogin) 
 			.then((founduser) => {	
 
-				console.log( founduser._id + "founduser._id");
-				console.log(userlogin + " userlogin ");
+
+				//console.log( founduser._id + "founduser._id");
+				//console.log(userlogin + " userlogin ");
 
 				if (founduser._id == userlogin ) {
 					next();
@@ -35,9 +33,12 @@ const checkAuthor = (req, res, next) => {
 			
 			})
 			.catch((error) => {
+				console.log(userlogin);
+				console.log(" here 1 " );
 				res.json({ errorMessage: error.message });
 			});
 	} catch (error) {
+		console.log(" here 2 ");
 		res.json({ errorMessage: error.message });
 	}
 };

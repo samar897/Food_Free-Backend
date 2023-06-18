@@ -23,28 +23,17 @@ const checkAuthor = autoMiddlware.checkAuthor;
 /*
 - the Admin  able to register in the system. 
 - the Admin  able to login.
-- Every user have there own session.
+- Every user have there own token.
 */
 
 //(Done) /Adminlogin
 router.post("/Adminlogin", (req, res) => {
-
-  
- 
- 
-
-  
-
-
 
   const AdminEmail = req.body.AdminEmail;
   const AdminPassword = req.body.AdminPassword;
   const AdminID="648ed13223a9649c600a94bb";
 
   console.log(AdminID+" AdminID")
-
-
-
 
 
   AdminDB.findOne({ AdminEmail }) 
