@@ -40,21 +40,21 @@ The server will start on port 8000. You can access the application at http://loc
 ### The the relation on database between the Foods and Admin can add one both side and and update.
 
 # User Side (API):
-## On both side connected Many to many they delete and update the Food Free.
-## The user can Add any of the Food Allegray. 
-## The user can list all the courses he is registered in.
-## The user can cancel the registration from the course.
-## The the relation on database between the user and food allegary can add one both side and delete also and update.
-## The User can Request from Admin to Add Prodects on System.
+#### -On both side connected Many to many they delete and update the Food Free.
+#### -The user can Add any of the Food Allegray. 
+#### -The user can list all the courses he is registered in.
+#### -The user can cancel the registration from the course.
+#### -The the relation on database between the user and food allegary can add one both side and delete also and update.
+#### -The User can Request from Admin to Add Prodects on System.
 
 # Community Side
-## The Community side the user he/she can Add Comments update on it and Delete the comment also Display his/her comments and All the other comments.
+#### -The Community side the user he/she can Add Comments update on it and Delete the comment also Display his/her comments and All the other comments.
 
 ### There are Four Model Database Admin, Community Food Free for the prodect have Allegery food and The user.
-## Routers
+#### -Routers
 ### There are Four Routers Admin, Community Food Free for the prodect have Allegery food and The user.
 
-### The WebSite have checkLoggedInUser and checkLoggedInAdmin to check and make sure for each one Access. 
+#### -The WebSite have checkLoggedInUser and checkLoggedInAdmin to check and make sure for each one Access. 
 
 ### For DataBase and JWS on .env file
 
