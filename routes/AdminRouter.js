@@ -89,7 +89,9 @@ router.post("/Adminlogin", (req, res) => {
     });
 });
 
-//(Done) /PostAdminRegister
+//(Done) /PostAdminRegister note: the PostAdminRegister will only for one time submit for only one Admin
+
+/*
 router.post("/PostAdminRegister", function (req, res) {
   let AdminPassword = req.body.AdminPassword;
 
@@ -132,7 +134,7 @@ router.post("/PostAdminRegister", function (req, res) {
   }
 });
 
-
+*/
 
 //    /:AdminID2 (Done)
 router.delete("/AdminDelete" ,isLoggedIn, checkAuthor, (req, res) => {

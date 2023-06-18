@@ -36,11 +36,7 @@ router.post("/AddComment",isLoggedIn, checkAuthor, function (req, res) {
 
         const TopicName = req.body.TopicName;
         const ContentName  = req.body.ContentName;
-        
-      
-        const Like = req.body.Like;
-        const DisLike = req.body.DisLike;
-  
+    
         
   
       UserDB.findById(userlogin).then((foundUser) => {
@@ -48,8 +44,6 @@ router.post("/AddComment",isLoggedIn, checkAuthor, function (req, res) {
             const NewComment = new CommunityDB({
                 TopicName: TopicName,
                 ContentName: ContentName,       
-              Like :Like,    
-              DisLike :DisLike,
               CommUser: foundUser,       
             });
   
@@ -149,8 +143,7 @@ router.post("/AddComment",isLoggedIn, checkAuthor, function (req, res) {
 
    const TopicName = req.body.TopicName;
    const ContentName  = req.body.ContentName;
-   const Like = req.body.Like;
-   const DisLike = req.body.DisLike;
+  
                      
   
    
@@ -171,8 +164,7 @@ router.post("/AddComment",isLoggedIn, checkAuthor, function (req, res) {
 
             foundComment.TopicName = TopicName;
             foundComment.ContentName= ContentName;       
-            foundComment.Like =Like; 
-            foundComment.DisLike =DisLike;
+     
          
          
             foundComment.save().then(() => {
@@ -242,7 +234,7 @@ router.get("/DisplayComment/:userCommunityID",isLoggedIn, checkAuthor, (req, res
 
 //All the Comments will display
       router.get("/DisplayAllComment",isLoggedIn, checkAuthor ,(req, res) => {
-        
+
         const object = res.locals.object;
         const Userlogin = object.Userlogin.id; 
       

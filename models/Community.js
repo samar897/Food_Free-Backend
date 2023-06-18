@@ -12,16 +12,10 @@ const CommunitySchema = new Schema({
     type: String,
     required: [true, "you should fill the Content Name"],
   },
-  Like :{
-    type: Number,
-    },
-    DisLike: {
-    type: Number,
-  },
-  CommUser: [{
+  CommUser: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",//here we put name of the model we want to connect with it.
-  }]
+  }
 }, 
 {
 
