@@ -66,7 +66,7 @@ The server will start on port 8000. You can access the application at http://loc
 
 ### For DataBase and JWT on .env file for more protection 
 
-<img src="/images/photo1.png" width="500" height="500">
+<img src="/images/photo1.png" width="500" height="600">
 
 
 #### One for Admin one For User.
