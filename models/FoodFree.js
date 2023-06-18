@@ -8,6 +8,10 @@ const FoodFreeSchema = new Schema({
     type: String,
     required: [true, "you should fill the Food_Free_Name"],
   },
+  FoodType: {
+    type: String,
+    required: [true, "you should fill the FoodType"],
+  },
     FoodDescription: {
     type: String,
     required: [true, "you should fill the Food Description"],

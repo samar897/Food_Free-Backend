@@ -3,10 +3,21 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const AdminDB = require("../models/Admin");
 
-const saltRounds = 10;
+
 const dotenv= require("dotenv");
 const bcrypt = require("bcrypt");
 dotenv.config();
+
+
+const FoodsFreeDB = require("../models/FoodFree");
+
+const UserDB = require("../models/User");
+const saltRounds = 10; 
+
+const autoMiddlware = require("../middleware/checkLoggedInAdmin");
+
+const isLoggedIn = autoMiddlware.isLoggedIn;
+const checkAuthor = autoMiddlware.checkAuthor;
 
 
 /*
@@ -18,12 +29,21 @@ dotenv.config();
 //(Done) /Adminlogin
 router.post("/Adminlogin", (req, res) => {
 
+  
+ 
+ 
+
+  
+
+
 
   const AdminEmail = req.body.AdminEmail;
   const AdminPassword = req.body.AdminPassword;
-  const AdminID="648d708613b8b9635d8ab4dd";
+  const AdminID="648ed13223a9649c600a94bb";
 
-  console.log()
+  console.log(AdminID+" AdminID")
+
+
 
 
 
@@ -41,15 +61,27 @@ router.post("/Adminlogin", (req, res) => {
       bcrypt.compare(AdminPassword, encryptedPassword).then((response) => {
           if (response) {
 
-            req.session.AdminID=foundAdmin._id;
+            const token = jwt.sign(
+              {
+                adminlogin: {
+                  AdminEmail: foundAdmin.AdminEmail,
+                  id: foundAdmin._id,
+                },
+              },
+              process.env.JWT_SECRET,
+              {
+                expiresIn: "1h",
+              }
+            );
+      
 
-            console.log(req.session.AdminID);
-            if(req.session.AdminID==AdminID){
-             // res.redirect("/PrincipalRouter/PrincipalAdminList");
-             res.json({ Admin: response, AdminID :req.session.AdminID});
+            console.log(foundAdmin._id);
+            if(foundAdmin._id==AdminID){
+             
+             res.json({ Admin: foundAdmin, token: token });
             }
             else{
-             // res.redirect("/in/OneAdminInfo");
+            console.log(adminlogin+ " adminlogin")
              res.json({ Message: "Not allwed"});
             }
            
@@ -81,13 +113,23 @@ router.post("/PostAdminRegister", function (req, res) {
       });
       Admin
         .save()  
-        .then((returnedValue) => {
+        .then((foundAdmin) => {
           //here will be the response for result
           console.log("record created in DB");
-          req.session.AdminID=returnedValue._id;
-          res.json({ Admin: returnedValue, AdminID :req.session.AdminID});
-         // res.redirect("/in/OneAdminInfo");
-          console.log(returnedValue);
+          const token = jwt.sign(
+            {
+              adminlogin: {
+                AdminEmail: foundAdmin.AdminEmail,
+                id: foundAdmin._id,
+              },
+            },
+            process.env.JWT_SECRET,
+            {
+              expiresIn: "1h",
+            }
+          );
+          res.json({ Admin: foundAdmin, token: token });
+          console.log(foundAdmin);
         })
         .catch((error) => {
           console.log();
@@ -97,25 +139,24 @@ router.post("/PostAdminRegister", function (req, res) {
     });
   } else {
     res.status(401).json( { Error: "password feield is required" });
-    //res.render("errorMessage.ejs", { data: "password feield is required" });
     
   }
 });
 
-router.get("/Logout", (req, res) => {
-  req.session.destroy();
-  res.redirect("/in/login");
-});
 
 
 //    /:AdminID2 (Done)
-router.delete("/AdminDelete", (req, res) => {
+router.delete("/AdminDelete" ,isLoggedIn, checkAuthor, (req, res) => {
 
-  const authHeaderAdminID = req.headers.authorization;
+  const object = res.locals.object;
+  const adminlogin = object.adminlogin.id; 
+ 
+
+  
  
   //console.log(AdminID + " AdminID ");
   console.log('====================================');
-  console.log(authHeaderAdminID+" authHeader");
+  console.log(adminlogin+" authHeader");
   console.log('====================================');
   
 
@@ -123,12 +164,12 @@ router.delete("/AdminDelete", (req, res) => {
     //const AdminIDsession=req.session.AdminID;
     const DBAdminID="648d9caa8d929e0282b4c83b";
 
-    console.log(authHeaderAdminID +" authHeaderAdminID");
+    console.log(adminlogin +" authHeaderAdminID");
    
-    if (authHeaderAdminID) {
-    if(authHeaderAdminID==DBAdminID){
+    if (adminlogin) {
+    if(adminlogin==DBAdminID){
       
-        AdminDB.findByIdAndDelete(authHeaderAdminID).then(() => { 
+        AdminDB.findByIdAndDelete(adminlogin).then(() => { 
        //res.send("Your Account is Deleted");
        res.json({ Message: "Your Account is Deleted"});
        console.log("Deleted");
@@ -155,23 +196,27 @@ router.delete("/AdminDelete", (req, res) => {
 
     //The Admin can update his/her or he can delete the account :AdminID (/updateAdmin (Done)
 
-router.post("/updateAdmin", (req, res) => {
+router.post("/updateAdmin",isLoggedIn, checkAuthor, (req, res) => {
 
   let AdminPassword = req.body.AdminPassword;
  
-  //const AdminID = req.session.AdminID;
+
+  const object = res.locals.object;
+  const adminlogin = object.adminlogin.id; 
  
-  const AdminID = req.headers.authorization;
+
+  
  
   //console.log(AdminID + " AdminID ");
   console.log('====================================');
-  console.log(AdminID+" authHeader");
+  console.log(adminlogin+" authHeader");
   console.log('====================================');
   
   
-  if (AdminID) {
-    AdminDB.findById(AdminID).then((foundAdmin) => {
-      if(foundAdmin._id!=AdminID){
+  
+  if (adminlogin) {
+    AdminDB.findById(adminlogin).then((foundAdmin) => {
+      if(foundAdmin._id!=adminlogin){
         res.json( { Error: "You are Not Allowed" });
         //res.render("errorMessage.ejs", { Message: "You are Not Allowed" });
       } else 
@@ -180,7 +225,7 @@ router.post("/updateAdmin", (req, res) => {
         if (AdminPassword) {
           bcrypt.hash(AdminPassword, saltRounds).then((encryptedpassword) => {
     
-       AdminDB.findById(AdminID).then((foundAdmin) => {
+       AdminDB.findById(adminlogin).then((foundAdmin) => {
         foundAdmin.FullAdminName = req.body.FullAdminName;
         foundAdmin.AdminPassword=encryptedpassword;
         foundAdmin.AdminEmail=req.body.AdminEmail;
@@ -198,7 +243,6 @@ router.post("/updateAdmin", (req, res) => {
   
         });
       
-   
     
   });
 });
@@ -218,10 +262,22 @@ router.post("/updateAdmin", (req, res) => {
 
 
   //*******************Done***************************************** */
-router.get("/DisplayAdminInfo", (req, res) => {
+router.get("/DisplayAdminInfo",isLoggedIn, checkAuthor ,(req, res) => {
 
-//const AdminID=req.session.AdminID;
-const AdminID = req.headers.authorization;
+
+
+
+const object = res.locals.object;
+const AdminID = object.adminlogin.id; 
+
+
+
+
+//console.log(AdminID + " AdminID ");
+console.log('====================================');
+console.log(adminlogin+" authHeader");
+console.log('====================================');
+
   //affect all the read and add on the table, the find funcation promise asy fun  
 if (AdminID) {
  AdminDB.findById(AdminID)
@@ -250,11 +306,22 @@ else
 
 //************************************************************ */
 
-router.get("/AdminUpdate/:AdminID2", (req, res) => {
+router.get("/AdminUpdate/:AdminID2",isLoggedIn, checkAuthor, (req, res) => {
 
   const AdminID2 = req.params.AdminID2;
-  //const AdminID=req.session.AdminID;
-  const AdminID = req.headers.authorization;
+  
+  
+  const object = res.locals.object;
+  const AdminID = object.adminlogin.id; 
+ 
+
+  
+ 
+  //console.log(AdminID + " AdminID ");
+  console.log('====================================');
+  console.log(adminlogin+" authHeader");
+  console.log('====================================');
+  
 
   console.log(AdminID2 + " ");
   console.log(AdminID + " ");

@@ -71,9 +71,9 @@ router.post("/UserRegister", function (req, res) {
     bcrypt.hash(UserPassword, saltRounds).then((encryptedpassword) => {
       const Userdb = new UserDB({
         FullUserName: req.body.FullUserName,
-        
         UserPassword: encryptedpassword, 
         UserEmail: req.body.UserEmail,
+        haveAllergy:req.body.haveAllergy,
       });
       Userdb
         .save()
@@ -246,7 +246,7 @@ router.delete("/UserDeleteFoodFree", isLoggedIn, checkAuthor,(req, res) => {
           founduser.FullUserName= req.body.FullUserName;
           founduser.UserPassword= encryptedpassword;
           founduser.UserEmail=req.body.UserEmail;
-         
+          founduser.haveAllergy=req.body.haveAllergy;
          
           founduser.save().then(() => {
             

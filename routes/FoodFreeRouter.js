@@ -2,7 +2,7 @@ const express = require("express");
 
 const FoodFreeDB = require("../models/FoodFree");
 const router2 = express.Router();
-const autoMiddlware = require("../middleware/checkLoggedInUser");
+
 const AdminDB = require("../models/Admin");
 const saltRounds = 10;
 const dotenv= require("dotenv");
@@ -12,24 +12,29 @@ const bcrypt = require("bcrypt");
 
 dotenv.config();
 
+const autoMiddlware = require("../middleware/checkLoggedInAdmin");
+
+const isLoggedIn = autoMiddlware.isLoggedIn;
+const checkAuthor = autoMiddlware.checkAuthor;
+
 /*Note Every error will be showing for you on another 
 page to understand the error come from what. res.render("errorMessage.ejs", { data: error.message });
 and I use Window history.back() with button to go back 
 */
 
 
-router2.get("/ListFoodfree", (req, res) => {
+router2.get("/ListFoodfree",isLoggedIn, checkAuthor ,(req, res) => {
 
-  const authHeader = req.headers.authorization;
+
+  const object = res.locals.object;
+  const adminlogin = object.adminlogin.id; 
  
   //console.log(AdminID + " AdminID ");
   console.log('====================================');
-  console.log(authHeader+" authHeader");
+  console.log(adminlogin+" authHeader");
   console.log('====================================');
 
-  //const foundAdmin=req.session.foundAdmin;
-
-  if (authHeader) {
+  if (adminlogin) {
   
     FoodFreeDB.find().then((FoodFreeDB) => { 
       res.json({ FoodFreeData : FoodFreeDB});
@@ -46,7 +51,7 @@ router2.get("/ListFoodfree", (req, res) => {
 });  
 
 //the control will be get and print the ejs file for OneListCourses for one Course 
-router2.get("/OneListFoodfree/:FoodFreeID", (req, res) => {
+router2.get("/OneListFoodfree/:FoodFreeID",isLoggedIn, checkAuthor, (req, res) => {
 
   const FoodFreeID =req.params.FoodFreeID;
   //const foundAdmin=req.session.foundAdmin;
@@ -54,16 +59,17 @@ router2.get("/OneListFoodfree/:FoodFreeID", (req, res) => {
   console.log(FoodFreeID+" "+ "FoodFreeID");
 
 
-      const authHeader = req.headers.authorization;
+
+  const object = res.locals.object;
+  const adminlogin = object.adminlogin.id; 
  
-      //console.log(AdminID + " AdminID ");
-      console.log('====================================');
-      console.log(authHeader+" authHeader");
-      console.log('====================================');
+
+  //console.log(AdminID + " AdminID ");
+  console.log('====================================');
+  console.log(adminlogin+" adminlogin");
+  console.log('====================================');
     
-      //const foundAdmin=req.session.foundAdmin;
-    
-      if (authHeader) {
+      if (adminlogin) {
       
         FoodFreeDB.findById(FoodFreeID).then((FoodFreeDB) => { 
           res.json({ FoodFreeData : [FoodFreeDB]});
@@ -80,37 +86,44 @@ router2.get("/OneListFoodfree/:FoodFreeID", (req, res) => {
     });  
 
 /* the below code is done */
-
+      
 
 //the action will be to add new courses
-router2.post("/AddnewFoodFree", function (req, res) {
+router2.post("/AddnewFoodFree",isLoggedIn, checkAuthor, function (req, res) {
  
 
-  //const req2 = Insoma.getRequest();
-  //const AdminID = req2.session.AdminID;
-  
+  const object = res.locals.object;
+  const adminlogin = object.adminlogin.id; 
 
-  const authHeader = req.headers.authorization;
+ 
+  //console.log(AdminID + " AdminID ");
+  console.log('====================================');
+  console.log(adminlogin+" authHeader");
+  console.log('====================================');
+
  
 //console.log(AdminID + " AdminID ");
 console.log('====================================');
-console.log(authHeader+" authHeader");
+console.log(adminlogin+" adminlogin");
 console.log('====================================');
+
  
-  if (authHeader) {
+  if (adminlogin) {
     const Food_Free_Name = req.body.Food_Free_Name;
     const FoodDescription  = req.body.FoodDescription;
     const AllergyStatus = req.body.AllergyStatus;
     const RequestStatus = req.body.RequestStatus;
+    const FoodType = req.body.FoodType;
       
 
-    AdminDB.findById(authHeader).then((foundAdmin) => {
+    AdminDB.findById(adminlogin).then((foundAdmin) => {
       //Courses.findById("645e28228d444e8fd9b420be").then((course) => {
-          const Newfoodfree = new FoodFree({
+          const Newfoodfree = new FoodFreeDB({
             Food_Free_Name: Food_Free_Name,
             FoodDescription: FoodDescription,       
             AllergyStatus :AllergyStatus,    
             RequestStatus :RequestStatus,
+            FoodType:FoodType,
             AdminFoodAllergy: foundAdmin,       
           });
 
@@ -137,7 +150,7 @@ console.log('====================================');
           console.log(error.message);
           res.json({ error: error});
         });
-    });
+    });  
 } else {
   res.json({ Message: "Please Login First"});
  //res.render("errorMessage.ejs", { data: "Please Login First" });
@@ -147,25 +160,26 @@ console.log('====================================');
 /*/DeleteFoodFree/:FoodFreeID Done we need to update from two side delete */ 
 
 //to delete courses from db with code 
-router2.delete("/DeleteFoodFree/:FoodFreeID", (req, res) => {
+router2.delete("/DeleteFoodFree/:FoodFreeID",isLoggedIn, checkAuthor, (req, res) => {
 
-  const authHeaderAdminID = req.headers.authorization;
- 
-  //console.log(AdminID + " AdminID ");
-  console.log('====================================');
-  console.log(authHeaderAdminID+" authHeader");
-  console.log('====================================');
+  
+  console.log(FoodFreeID+" "+ "FoodFreeID");
+
+
+
+  const object = res.locals.object;
+  const adminlogin = object.adminlogin.id; 
   //const AdminID = req.session.foundAdmin;
   const FoodFreeID = req.params.FoodFreeID;
 
   console.log(FoodFreeID+" FoodFreeID");
 
 
-   if (authHeaderAdminID) {
+   if (adminlogin) {
     FoodFreeDB.findById(FoodFreeID).then((foundAdmin) => {
-    if(foundAdmin.AdminFoodAllergy!=authHeaderAdminID){
+    if(foundAdmin.AdminFoodAllergy!=adminlogin){
 
-      console.log(foundAdmin+" foundAdmin");
+  
       console.log(foundAdmin.AdminFoodAllergy+" foundAdmin.AdminFoodAllergy");
       res.json({ error: "You are Not Allowed"});
     
@@ -193,34 +207,39 @@ router2.delete("/DeleteFoodFree/:FoodFreeID", (req, res) => {
 
 
 //the Last two Control will be update the database for courses  
-router2.post("/FoodFreeUpdate/:FoodFreeID", (req, res) => {
+router2.post("/FoodFreeUpdate/:FoodFreeID",isLoggedIn, checkAuthor, (req, res) => {
 
   const FoodFreeID = req.params.FoodFreeID;
   //const InstructorID = req.session.InstructorID;
 
-          
 
-  const authHeader = req.headers.authorization;
+  const object = res.locals.object;
+  const adminlogin = object.adminlogin.id; 
  
-//console.log(AdminID + " AdminID ");
-console.log('====================================');
-console.log(authHeader+" authHeader");
-console.log('====================================');
+
+  
+ 
+  //console.log(AdminID + " AdminID ");
+  console.log('====================================');
+  console.log(adminlogin+" authHeader");
+  console.log('====================================');
 
     const Food_Free_Name = req.body.Food_Free_Name;
     const FoodDescription  = req.body.FoodDescription;
     const AllergyStatus = req.body.AllergyStatus;
+    const FoodType = req.body.FoodType;
     const RequestStatus = req.body.RequestStatus;
 
   console.log(FoodFreeID+" FoodFreeID");
 
 
-    if (authHeader) {
+    if (adminlogin) {
      
       FoodFreeDB.findById(FoodFreeID).then((foodfreevalue) => {
         foodfreevalue.Food_Free_Name=Food_Free_Name;
         foodfreevalue.FoodDescription= FoodDescription;       
         foodfreevalue.AllergyStatus =AllergyStatus; 
+        foodfreevalue.FoodType =FoodType;
         foodfreevalue.RequestStatus =RequestStatus;
         
              

@@ -18,6 +18,10 @@ const UserSchema = new Schema({
     required: [true, "you should fill the Email"],
     unique: true,
   },
+  haveAllergy: {
+    type: Boolean,
+    required: [true, "you should fill the haveAllergy"],
+  },
   userFoodFree: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "FoodFree",//here we put name of the model we want to connect with it.
