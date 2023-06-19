@@ -1,7 +1,7 @@
  
 //to call the lib express to use the func step 1
 const express = require("express");  
-
+const path = require ('path');
 //the Below varialbes will be call the Router to use them on app. 
 const AdminRouter = require("./routes/AdminRouter");
 const PrincipalRouter = require("./routes/CommunityRouter");
@@ -54,6 +54,7 @@ app.use("/images", express.static("images"));
 //The CSS file will be appeare when we use this command with the path. external package 
 app.use(express.static("public"));
 app.use("/css", express.static("css"));
+app.use(express.static(__dirname + '/public'));
 
 app.use(session({ secret: "my secret" })); 
 app.use(cookieParser()); 
