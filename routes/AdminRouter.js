@@ -31,9 +31,6 @@ router.post("/Adminlogin", (req, res) => {
 
   const AdminEmail = req.body.AdminEmail;
   const AdminPassword = req.body.AdminPassword;
-  const AdminID="648ed13223a9649c600a94bb";
-
-  console.log(AdminID+" AdminID")
 
 
   AdminDB.findOne({ AdminEmail }) 
@@ -42,7 +39,7 @@ router.post("/Adminlogin", (req, res) => {
       if (!foundAdmin) {
         const data = "incorrect Admin Email";
         res.json( { error: data});
-       // res.render("errorMessage.ejs", { data });
+  
         return;
       }
 
@@ -62,17 +59,9 @@ router.post("/Adminlogin", (req, res) => {
                 expiresIn: "1h",
               }
             );
-      
-
             console.log(foundAdmin._id);
-            if(foundAdmin._id==AdminID){
-             
+
              res.json({ Admin: foundAdmin, token: token });
-            }
-            else{
-            console.log(adminlogin+ " adminlogin")
-             res.json({ Message: "Not allwed"});
-            }
            
           } else {
             res.json( { error: "error.message" });
@@ -85,7 +74,6 @@ router.post("/Adminlogin", (req, res) => {
     })
     .catch((error) => {
       res.json( { error: error.message });
-     // res.render("errorMessage.ejs", { data: error.message });
     });
 });
 
