@@ -7,10 +7,7 @@ For example, a person with gluten sensitivity and wanted to search for whether t
 ## -The Members are Samar: https://github.com/samar897 Saleh And AbdullMalik: https://github.com/Abdulmalik055.
 
 # Vercel-deployment: 
-
-
-    رابط النشر(s ).
-    صور/لقطات شاشة للمشروع.
+.
 
 # This is a brief description of My project.
 
@@ -59,7 +56,7 @@ The server will start on port 8000. You can access the application at http://loc
 ### There are Four Model Database Admin, Community Food Free for the prodect have Allegery food and The user.
 
 
-<img src="/images/DB.png" width="50" height="50">
+<img src="/images/DB.png" width="500" height="500">
 
 
 #### -Routers
@@ -69,15 +66,15 @@ The server will start on port 8000. You can access the application at http://loc
 
 ### For DataBase and JWT on .env file for more protection 
 
-<img src="/images/photo1.png" width="50" height="50">
+<img src="/images/photo1.png" width="500" height="600">
 
 
 #### One for Admin one For User.
 <code>
     const authHeader = req.headers.authorization;
-		const token = authHeader.split(" ")[1];
-		const object = jwt.verify(token, process.env.JWT_SECRET);
-		res.locals.object = object;
+    const token = authHeader.split(" ")[1];
+    const object = jwt.verify(token, process.env.JWT_SECRET);
+    res.locals.object = object;
     </code>
 
 
