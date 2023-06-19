@@ -1,13 +1,17 @@
-# Food_Free-Backend
+# Food_Free-Backend:
+
 # The Main Idea from Project:
 ### The main idea of the project:
-The idea of the project is a search for the barcode number, and the result of the search shows us whether this product causes allergies or not
-For example, a person with gluten sensitivity and wanted to search for whether this bread is gluten-free, so he writes the barcode of the product and displays a result of whether it is free or not.
+The idea of the project is a search for the barcode number, and the result of the search shows us whether this product causes allergies or not For example, a person with gluten sensitivity and wanted to search for whether this bread is gluten-free, so he writes the barcode of the product and displays a result of whether it is free or not.
 
 ## -The Members are Samar: https://github.com/samar897 Saleh And AbdullMalik: https://github.com/Abdulmalik055.
 
-# Vercel-deployment: 
-.
+# API Insomnia We Create more 17 Control using API Insomnia using https://food-free.onrender.com/ render Server.
+# Render-deployment: 
+
+## https://food-free.onrender.com/
+
+<img src="/images/HomePageBackend.png" width="500" height="500">
 
 # This is a brief description of My project.
 
@@ -76,6 +80,12 @@ The server will start on port 8000. You can access the application at http://loc
     const object = jwt.verify(token, process.env.JWT_SECRET);
     res.locals.object = object;
     </code>
+
+
+
+
+
+
 
 
 
