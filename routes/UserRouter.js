@@ -325,7 +325,8 @@ router.delete("/UserDeleteFoodFree", isLoggedIn, checkAuthor,(req, res) => {
       if (Userlogin) {
         const Food_Free_Name = req.body.Food_Free_Name;
         const FoodDescription  = req.body.FoodDescription;
-        const AllergyStatus = req.body.AllergyStatus;    
+        const FoodType = req.body.FoodType;
+        const AllergyStatus = req.body.AllergyStatus; 
         const  RequestStatus =false;
 
        
@@ -336,7 +337,8 @@ router.delete("/UserDeleteFoodFree", isLoggedIn, checkAuthor,(req, res) => {
       
               const NewOrderFreefood = new FoodsFreeDB({   
                 Food_Free_Name: Food_Free_Name,
-                FoodDescription: FoodDescription,       
+                FoodDescription: FoodDescription,
+                FoodType:FoodType,       
                 AllergyStatus :AllergyStatus,    
                 RequestStatus :RequestStatus,
                 UserFoodAllergy: founduser,       
