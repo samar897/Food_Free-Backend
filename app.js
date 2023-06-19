@@ -55,7 +55,7 @@ app.use("/images", express.static("images"));
 app.use(express.static("public"));
 app.use("/css", express.static("css"));
 app.use(express.static(__dirname + '/public'));
-
+     
 app.use(session({ secret: "my secret" })); 
 app.use(cookieParser()); 
 
