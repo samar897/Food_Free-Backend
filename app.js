@@ -86,7 +86,7 @@ mongoose.connect(process.env.DB_URL).then(() => {
  
 
 app.get("/", (req, res) => {
-  res.render("InstructorLoginForm.ejs");
+  res.send("BackEnd Side API");
 });
    
 //STEP3 we will use the app from express lib to listen port
