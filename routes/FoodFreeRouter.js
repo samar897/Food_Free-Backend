@@ -13,9 +13,11 @@ const bcrypt = require("bcrypt");
 dotenv.config();
 
 const autoMiddlware = require("../middleware/checkLoggedInAdmin");
-
+const autoMiddlware2 = require("../middleware/checkLoggedInAdmin");
 const isLoggedIn = autoMiddlware.isLoggedIn;
 const checkAuthor = autoMiddlware.checkAuthor;
+const isLoggedIn2 = autoMiddlware.isLoggedIn;
+const checkAuthor2 = autoMiddlware.checkAuthor;
 
 /*Note Every error will be showing for you on another 
 page to understand the error come from what. res.render("errorMessage.ejs", { data: error.message });
@@ -69,7 +71,7 @@ router2.get("/ListFoodfree",isLoggedIn, checkAuthor ,(req, res) => {
 
   const object = res.locals.object;
   const adminlogin = object.adminlogin.id; 
- 
+  const Userlogin = object.Userlogin.id;
   //console.log(AdminID + " AdminID ");
   console.log('====================================');
   console.log(adminlogin+" adminlogin");
@@ -81,6 +83,7 @@ router2.get("/ListFoodfree",isLoggedIn, checkAuthor ,(req, res) => {
       res.json({ FoodFreeData : FoodFreeDB});
    //res.render("OneListCourses.ejs", { data: courses, foundAdmin});
   })
+  
   .catch((error) => {
     res.json({ error: error.message });
    // res.render("errorMessage.ejs", { data: error.message });
@@ -89,6 +92,7 @@ router2.get("/ListFoodfree",isLoggedIn, checkAuthor ,(req, res) => {
 } else {
   res.json({ error: error.message });
 }
+
 });  
       
 
@@ -211,60 +215,39 @@ router2.delete("/DeleteFoodFree/:FoodFreeID",isLoggedIn, checkAuthor, (req, res)
 
 
 //the Last two Control will be update the database for Food  
-router2.post("/FoodFreeUpdate/:FoodFreeID",isLoggedIn, checkAuthor, (req, res) => {
-
-  const FoodFreeID = req.params.FoodFreeID;
-  //const InstructorID = req.session.InstructorID;
-
-
+router2.get("/ListFoodfree",isLoggedIn, checkAuthor ,(req, res) => {
   const object = res.locals.object;
-  const adminlogin = object.adminlogin.id; 
+  const adminlogin = object.adminlogin.id;
+  const Userlogin = object.Userlogin.id; 
  
   //console.log(AdminID + " AdminID ");
   console.log('====================================');
-  console.log(adminlogin+" authHeader");
+  console.log(adminlogin+" adminlogin");
   console.log('====================================');
 
-    const Food_Free_Name = req.body.Food_Free_Name;
-    const FoodDescription  = req.body.FoodDescription;
-    const AllergyStatus = req.body.AllergyStatus;
-    const FoodType = req.body.FoodType;
-    const RequestStatus = req.body.RequestStatus;
+  if (adminlogin) {
+  
+    FoodFreeDB.find().then((FoodFreeDB) => { 
+      res.json({ FoodFreeData : FoodFreeDB});
+  })
+  .catch((error) => {
+    res.json({ error: error.message });
+  });
 
-  console.log(FoodFreeID+" FoodFreeID");
-
-
-    if (adminlogin) {
-     
-      FoodFreeDB.findById(FoodFreeID).then((foodfreevalue) => {
-        foodfreevalue.Food_Free_Name=Food_Free_Name;
-        foodfreevalue.FoodDescription= FoodDescription;       
-        foodfreevalue.AllergyStatus =AllergyStatus; 
-        foodfreevalue.FoodType =FoodType;
-        foodfreevalue.RequestStatus =RequestStatus;
-        
-             
-        foodfreevalue.save().then(() => {
-                  console.log();
-               
-                  res.json({ Message: "Record Updated in DB"});
-        })
-          .catch((error) => {
-           
-            console.log("The Record not update");
-            res.json({ Message: "The Record not update", error:error.message});
-          });
-    }).catch((error) => {
-           
-    
-      res.json({ error:error.message});
-    });
+}
+  else if (Userlogin) {
+         
+      FoodsFreeDB.find({RequestStatus:true}).then((FoodFreeDB) => { 
+      res.json({ FoodFreeData : FoodFreeDB});
+  })    
+  .catch((error) => {
+      res.json({ error: error.message });
+  });
+  
   } else {
-    res.json({ Message: "Please Login First" });
-  
-   }
-  
-   });
+  res.json({ error: error.message });
+}
+});
 module.exports = router2;
 
 

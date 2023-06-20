@@ -56,7 +56,7 @@ router.post("/Userlogin", (req, res) => {
           }
         })
         .catch((errorMessage) => {
-          res.status(401).json({ errorMessage });
+          res.status(401).json({ errorMessage :'error1'});
         });
     })
     .catch((errorMessage) => {
@@ -316,7 +316,7 @@ router.delete("/UserDeleteFoodFree", isLoggedIn, checkAuthor,(req, res) => {
 
     const object = res.locals.object;
     const Userlogin = object.Userlogin.id; 
-     
+    
     //console.log(AdminID + " AdminID ");
     console.log('====================================');
     console.log(Userlogin+" authHeader");
