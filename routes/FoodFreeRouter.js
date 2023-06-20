@@ -70,8 +70,14 @@ router2.get("/ListFoodfree",isLoggedIn, checkAuthor ,(req, res) => {
 
 
   const object = res.locals.object;
-  const adminlogin = object.adminlogin.id; 
-  const Userlogin = object.Userlogin.id;
+  let adminlogin 
+if(object.adminlogin.id){
+     adminlogin = object.adminlogin.id;
+}
+let Userlogin
+if(object.Userlogin.id){
+     Userlogin = object.Userlogin.id;
+}
   //console.log(AdminID + " AdminID ");
   console.log('====================================');
   console.log(adminlogin+" adminlogin");
@@ -251,14 +257,5 @@ router2.get("/ListFoodfree",isLoggedIn, checkAuthor ,(req, res) => {
 module.exports = router2;
 
 
-/*
-
-- the Admin  able to add a new course.
-- the Admin  able to edit the course.
-- the Admin  able to list all the courses he/she created.
-- the Admin  able to delete any of the courses he created.
--There are no one can dalete or update for other only them self
-
-*/
 
 
