@@ -30,7 +30,7 @@ and I use Window history.back() with button to go back
 
 
 //the control will be get and print the ejs file for OneListCourses for one Course 
-router2.get("/OneListFoodfree/:FoodFreeID",isLoggedIn, checkAuthor, (req, res) => {
+router2.get("/OneListFoodfree/:FoodFreeID",isLoggedIn, checkAuthor,isLoggedIn2, checkAuthor2, (req, res) => {
 
   const FoodFreeID =req.params.FoodFreeID;
   //const foundAdmin=req.session.foundAdmin;
@@ -66,16 +66,20 @@ router2.get("/OneListFoodfree/:FoodFreeID",isLoggedIn, checkAuthor, (req, res) =
     
     
 
-router2.get("/ListFoodfree",isLoggedIn, checkAuthor ,(req, res) => {
+router2.get("/ListFoodfree",isLoggedIn, checkAuthor,isLoggedIn2, checkAuthor2 ,(req, res) => {
 
 
   const object = res.locals.object;
+  console.log(object)     
+  console.log(object.adminlogin.id+"  admin")
+  
   let adminlogin 
+  let Userlogin
+
 if(object.adminlogin.id){
+
      adminlogin = object.adminlogin.id;
-}
-let Userlogin
-if(object.Userlogin.id){
+}else{
      Userlogin = object.Userlogin.id;
 }
   //console.log(AdminID + " AdminID ");
@@ -174,7 +178,7 @@ console.log('====================================');
 /*/DeleteFoodFree/:FoodFreeID Done we need to update from two side delete */ 
 
 //to delete Food from db with code 
-router2.delete("/DeleteFoodFree/:FoodFreeID",isLoggedIn, checkAuthor, (req, res) => {
+router2.delete("/DeleteFoodFree/:FoodFreeID",isLoggedIn, checkAuthor,isLoggedIn2, checkAuthor2, (req, res) => {
 
   
   console.log(FoodFreeID+" "+ "FoodFreeID");
@@ -219,14 +223,14 @@ router2.delete("/DeleteFoodFree/:FoodFreeID",isLoggedIn, checkAuthor, (req, res)
 }
 });
 
-
 //the Last two Control will be update the database for Food  
 router2.get("/ListFoodfree",isLoggedIn, checkAuthor ,(req, res) => {
+
   const object = res.locals.object;
   const adminlogin = object.adminlogin.id;
-  const Userlogin = object.Userlogin.id; 
+ // const Userlogin = object.Userlogin.id; 
  
-  //console.log(AdminID + " AdminID ");
+  //console.log(AdminID + " AdminID ");   
   console.log('====================================');
   console.log(adminlogin+" adminlogin");
   console.log('====================================');

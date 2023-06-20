@@ -74,6 +74,7 @@ router.post("/UserRegister", function (req, res) {
         UserPassword: encryptedpassword, 
         UserEmail: req.body.UserEmail,
         haveAllergy:req.body.haveAllergy,
+        UserFoodFreetype:req.body.UserFoodFreetype,
       });
       Userdb
         .save()
@@ -246,6 +247,7 @@ router.delete("/UserDeleteFoodFree", isLoggedIn, checkAuthor,(req, res) => {
           founduser.UserPassword= encryptedpassword;
           founduser.UserEmail=req.body.UserEmail;
           founduser.haveAllergy=req.body.haveAllergy;
+          founduser.UserFoodFreetype=req.body.UserFoodFreetype;
          
           founduser.save().then(() => {
             
