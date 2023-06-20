@@ -295,7 +295,7 @@ router.delete("/UserDeleteFoodFree", isLoggedIn, checkAuthor,(req, res) => {
     
       if (Userlogin) {
       
-        UserDB.find().then((founduserinfo) => { 
+        UserDB.findById(Userlogin).then((founduserinfo) => { 
        //res.send(courses);
        res.json({ founduserinfo: [founduserinfo]});
       
@@ -304,7 +304,7 @@ router.delete("/UserDeleteFoodFree", isLoggedIn, checkAuthor,(req, res) => {
         res.json({ error: [error.message]});
         
       });
-    
+      
     } else {
       res.json({ error: ["Please Login First"]});
      
@@ -330,9 +330,6 @@ router.delete("/UserDeleteFoodFree", isLoggedIn, checkAuthor,(req, res) => {
         const  RequestStatus =false;
 
        
-
-          
-    
         UserDB.findById(Userlogin).then((founduser) => {
       
               const NewOrderFreefood = new FoodsFreeDB({   
