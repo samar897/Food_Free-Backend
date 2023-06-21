@@ -58,7 +58,7 @@ app.use(express.static(__dirname + '/public'));
      
 app.use(session({ secret: "my secret" })); 
 app.use(cookieParser()); 
-
+   
 
 
 // we are using the variables above so we can access the router there 

@@ -280,7 +280,7 @@ router.delete("/UserDeleteFoodFree", isLoggedIn, checkAuthor,(req, res) => {
   
      });
   
-      
+       
 
      router.get("/UserProfile", isLoggedIn, checkAuthor, (req, res) => {
 
@@ -316,10 +316,17 @@ router.delete("/UserDeleteFoodFree", isLoggedIn, checkAuthor,(req, res) => {
    
     router.post("/RequestFoodFree", isLoggedIn, checkAuthor, function (req, res) {
 
+
+
+      console.log('====================================');
+      console.log(Userlogin+" authHeader");
+      console.log('====================================');
+
+
     const object = res.locals.object;
     const Userlogin = object.Userlogin.id; 
     
-    //console.log(AdminID + " AdminID ");
+       
     console.log('====================================');
     console.log(Userlogin+" authHeader");
     console.log('====================================');
@@ -329,7 +336,7 @@ router.delete("/UserDeleteFoodFree", isLoggedIn, checkAuthor,(req, res) => {
         const FoodDescription  = req.body.FoodDescription;
         const FoodType = req.body.FoodType;
         const AllergyStatus = req.body.AllergyStatus; 
-        const  RequestStatus =false;
+        const  RequestStatus ="false";
 
        
         UserDB.findById(Userlogin).then((founduser) => {
@@ -349,7 +356,7 @@ router.delete("/UserDeleteFoodFree", isLoggedIn, checkAuthor,(req, res) => {
                 founduser.save().then((usersavedvalue) => {
                
                   console.log("record created in DB");
-                  res.json({ Message: "Record Created in DB", Data:[usersavedvalue]});
+                  res.json({ Message: "Record Created in DB", Data:usersavedvalue});
           
               }).catch((error) => {
                 console.log("record not created in DB");

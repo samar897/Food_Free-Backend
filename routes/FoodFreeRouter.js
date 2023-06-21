@@ -178,30 +178,24 @@ console.log('====================================');
 /*/DeleteFoodFree/:FoodFreeID Done we need to update from two side delete */ 
 
 //to delete Food from db with code 
-router2.delete("/DeleteFoodFree/:FoodFreeID",isLoggedIn, checkAuthor,isLoggedIn2, checkAuthor2, (req, res) => {
+router2.delete("/DeleteFoodFree/:FoodFreeID",isLoggedIn, checkAuthor, (req, res) => {
 
   
-  console.log(FoodFreeID+" "+ "FoodFreeID");
+
 
 
 
   const object = res.locals.object;
   const adminlogin = object.adminlogin.id; 
   //const AdminID = req.session.foundAdmin;
-  const FoodFreeID = req.params.FoodFreeID;
+  const FoodFreeID = req.params.FoodFreeID;      
 
-  console.log(FoodFreeID+" FoodFreeID");
-
+  console.log(FoodFreeID+" FoodFreeID");   
+    
 
    if (adminlogin) {
-    FoodFreeDB.findById(FoodFreeID).then((foundAdmin) => {
-    if(foundAdmin.AdminFoodAllergy!=adminlogin){
-
   
-      console.log(foundAdmin.AdminFoodAllergy+" foundAdmin.AdminFoodAllergy");
-      res.json({ error: "You are Not Allowed"});
-    
-    } else {
+   
       FoodFreeDB.findByIdAndDelete(FoodFreeID).then(() => { 
    console.log("deleted");
    res.json({ Message: "Deleted"});
@@ -214,8 +208,8 @@ router2.delete("/DeleteFoodFree/:FoodFreeID",isLoggedIn, checkAuthor,isLoggedIn2
     res.json({ error: error.message});
   
   });
-}
-  });
+
+ 
  
 } else {
   res.json({ error: "Please Login First"});
@@ -258,6 +252,62 @@ router2.get("/ListFoodfree",isLoggedIn, checkAuthor ,(req, res) => {
   res.json({ error: error.message });
 }
 });
+
+
+
+//the Last two Control will be update the database for courses  
+router2.post("/FoodFreeUpdate/:FoodFreeID",isLoggedIn, checkAuthor, (req, res) => {
+
+
+  const object = res.locals.object;
+  const adminlogin = object.adminlogin.id; 
+  //const AdminID = req.session.foundAdmin;
+  const FoodFreeID = req.params.FoodFreeID; 
+ 
+    
+
+    const Food_Free_Name = req.body.Food_Free_Name;
+    const FoodDescription  = req.body.FoodDescription;
+    const FoodType=req.body.FoodType;
+    const AllergyStatus = req.body.AllergyStatus;
+    const RequestStatus = req.body.RequestStatus;
+
+console.log(RequestStatus +" kkkk")
+    
+
+
+  console.log(FoodFreeID+" FoodFreeID");
+
+   
+    if (adminlogin) {
+     
+      FoodFreeDB.findById(FoodFreeID).then((foodfreevalue) => {
+      //  foodfreevalue.Food_Free_Name=Food_Free_Name,
+      //  foodfreevalue.FoodDescription= FoodDescription,       
+        //  foodfreevalue.AllergyStatus =AllergyStatus,   
+       // foodfreevalue.FoodType=FoodType,
+        foodfreevalue.RequestStatus =RequestStatus,
+        
+             
+        foodfreevalue.save().then(() => {
+                  console.log();
+               
+                  res.json({ Message: "Record Updated in DB"});
+        })
+          .catch((error) => {
+           
+            console.log("The Record not update");
+            res.json({ Message: "The Record not update", error:error.message});
+          });
+    });
+  } else {
+    res.json({ Message: "Please Login First" });
+  
+   }
+  
+   });
+
+
 module.exports = router2;
 
 

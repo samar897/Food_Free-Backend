@@ -21,8 +21,8 @@ const checkAuthor = (req, res, next) => {
 		Admin.findById(adminlogin) 
 			.then((foundadmin) => {	
 
-				console.log( foundadmin._id + "foundadmin._id");
-				console.log(adminlogin + " userlogin ");
+				//console.log( foundadmin._id + "foundadmin._id");
+				//console.log(adminlogin + " userlogin ");
 
 				if (foundadmin._id == adminlogin ) {
 					next();
