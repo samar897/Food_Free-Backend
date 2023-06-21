@@ -242,11 +242,11 @@ router.get("/DisplayComment/:userCommunityID",isLoggedIn, checkAuthor, (req, res
         
           CommunityDB.find().then((Communityvalue) => { 
             res.json({ data : [Communityvalue]});
-         //res.render("OneListCourses.ejs", { data: courses, foundAdmin});
+       
         })
         .catch((error) => {
           res.json({ error: error.message });
-         // res.render("errorMessage.ejs", { data: error.message });
+   
         });
       
       } else {

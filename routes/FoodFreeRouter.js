@@ -29,7 +29,7 @@ and I use Window history.back() with button to go back
 
 
 
-//the control will be get and print the ejs file for OneListCourses for one Course 
+//the control will be get and print the OneListFoodfree with FoodFreeID
 router2.get("/OneListFoodfree/:FoodFreeID",isLoggedIn, checkAuthor,isLoggedIn2, checkAuthor2, (req, res) => {
 
   const FoodFreeID =req.params.FoodFreeID;
@@ -91,12 +91,12 @@ if(object.adminlogin.id){
   
     FoodFreeDB.find().then((FoodFreeDB) => { 
       res.json({ FoodFreeData : FoodFreeDB});
-   //res.render("OneListCourses.ejs", { data: courses, foundAdmin});
+
   })
   
   .catch((error) => {
     res.json({ error: error.message });
-   // res.render("errorMessage.ejs", { data: error.message });
+
   });
 
 } else {
@@ -136,7 +136,7 @@ console.log('====================================');
       
 
     AdminDB.findById(adminlogin).then((foundAdmin) => {
-      //Courses.findById("645e28228d444e8fd9b420be").then((course) => {
+   
           const Newfoodfree = new FoodFreeDB({
             Food_Free_Name: Food_Free_Name,
             BarcodeID:BarcodeID,
@@ -153,12 +153,10 @@ console.log('====================================');
           Newfoodfree.save().then((savedvalue) => {
             foundAdmin.AdminFoodFreeID.push(savedvalue);
             foundAdmin.save().then((savedvalue) => {
-              //course.InstCor = savedvalue._id;
-              //course.save().then((savedvalue) => {
+         
               console.log("record created in DB");
               res.json({ Message: "Record Created in DB", Data:savedvalue});
-              //});
-            //});
+       
           }).catch((error) => {
             console.log("record not created in DB");
             console.log(error.message);

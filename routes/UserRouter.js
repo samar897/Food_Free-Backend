@@ -389,11 +389,11 @@ router.delete("/UserDeleteFoodFree", isLoggedIn, checkAuthor,(req, res) => {
         FoodsFreeDB.find().then((FoodFreeDB) => { 
 
           res.json({ FoodFreeData : FoodFreeDB});
-       //res.render("OneListCourses.ejs", { data: courses, foundAdmin});
+      
       })
       .catch((error) => {
         res.json({ error: error.message });
-       // res.render("errorMessage.ejs", { data: error.message });
+       
       });
     
     } else {
