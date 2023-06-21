@@ -317,12 +317,6 @@ router.delete("/UserDeleteFoodFree", isLoggedIn, checkAuthor,(req, res) => {
     router.post("/RequestFoodFree", isLoggedIn, checkAuthor, function (req, res) {
 
 
-
-      console.log('====================================');
-      console.log(Userlogin+" authHeader");
-      console.log('====================================');
-
-
     const object = res.locals.object;
     const Userlogin = object.Userlogin.id; 
     
@@ -383,14 +377,14 @@ router.delete("/UserDeleteFoodFree", isLoggedIn, checkAuthor,(req, res) => {
       const object = res.locals.object;
       const Userlogin = object.Userlogin.id; 
        
-      //console.log(AdminID + " AdminID ");
+   
       console.log('====================================');
       console.log(Userlogin+" authHeader");
       console.log('====================================');
     
       if (Userlogin) {
          
-        FoodsFreeDB.find({RequestStatus:true}).then((FoodFreeDB) => { 
+        FoodsFreeDB.find().then((FoodFreeDB) => { 
 
           res.json({ FoodFreeData : FoodFreeDB});
        //res.render("OneListCourses.ejs", { data: courses, foundAdmin});

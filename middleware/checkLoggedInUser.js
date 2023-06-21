@@ -11,21 +11,22 @@ const checkAuthor = (req, res, next) => {
 		const object = jwt.verify(token, process.env.JWT_SECRET);
 		res.locals.object = object;
 
+		console.log(object+" object"+" res.locals.object" + res.locals.object);
 		
-	     const userlogin = object.Userlogin.id; 
-		 console.log(userlogin);
+	     const Userlogin = object.Userlogin.id; 
+		 console.log(Userlogin+" هنا ");
 
-
+ 
 
 		//const usercourseID = req.body.usercourseID;
-		UserDB.findById(userlogin) 
+		UserDB.findById(Userlogin) 
 			.then((founduser) => {	
 
 
 				//console.log( founduser._id + "founduser._id");
 				//console.log(userlogin + " userlogin ");
 
-				if (founduser._id == userlogin ) {
+				if (founduser._id == Userlogin ) {
 					next();
 				} else {
 					res.json({ errorMessage: "unauthorized" });
@@ -33,7 +34,7 @@ const checkAuthor = (req, res, next) => {
 			
 			})
 			.catch((error) => {
-				console.log(userlogin);
+				console.log(Userlogin);
 				console.log(" here 1 " );
 				res.json({ errorMessage: error.message });
 			});
@@ -54,7 +55,7 @@ const isLoggedIn = (req, res, next) => {
 	} catch (err) {
 		res.json({ errorMessage: err });
 	}
-};
+}; 
 
 
 

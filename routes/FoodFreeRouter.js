@@ -109,7 +109,7 @@ if(object.adminlogin.id){
 //the action will be to add new Food
 router2.post("/AddnewFoodFree",isLoggedIn, checkAuthor, function (req, res) {
  
-
+   
   const object = res.locals.object;
   const adminlogin = object.adminlogin.id; 
 
@@ -180,10 +180,6 @@ console.log('====================================');
 //to delete Food from db with code 
 router2.delete("/DeleteFoodFree/:FoodFreeID",isLoggedIn, checkAuthor, (req, res) => {
 
-  
-
-
-
 
   const object = res.locals.object;
   const adminlogin = object.adminlogin.id; 
@@ -218,12 +214,16 @@ router2.delete("/DeleteFoodFree/:FoodFreeID",isLoggedIn, checkAuthor, (req, res)
 });
 
 //the Last two Control will be update the database for Food  
-router2.get("/ListFoodfree",isLoggedIn, checkAuthor ,(req, res) => {
+router2.get("/ListFoodfree",isLoggedIn, checkAuthor,isLoggedIn2, checkAuthor2  ,(req, res) => {
 
+  console.log(object+" object");
   const object = res.locals.object;
   const adminlogin = object.adminlogin.id;
  // const Userlogin = object.Userlogin.id; 
+
  
+ const Userlogin = object.Userlogin.id;
+  
   //console.log(AdminID + " AdminID ");   
   console.log('====================================');
   console.log(adminlogin+" adminlogin");
