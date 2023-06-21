@@ -8,6 +8,10 @@ const FoodFreeSchema = new Schema({
     type: String,
     required: [true, "you should fill the Food_Free_Name"],
   },
+  BarcodeID: {
+    type: String,
+    required: [true, "you should fill the Food_Free_Name"],
+  },
     FoodType: [{
     type: String,
       

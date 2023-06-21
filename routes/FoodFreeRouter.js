@@ -128,6 +128,7 @@ console.log('====================================');
  
   if (adminlogin) {
     const Food_Free_Name = req.body.Food_Free_Name;
+    const BarcodeID = req.body.BarcodeID;
     const FoodDescription  = req.body.FoodDescription;
     const AllergyStatus = req.body.AllergyStatus;
     const RequestStatus = req.body.RequestStatus;
@@ -138,6 +139,7 @@ console.log('====================================');
       //Courses.findById("645e28228d444e8fd9b420be").then((course) => {
           const Newfoodfree = new FoodFreeDB({
             Food_Free_Name: Food_Free_Name,
+            BarcodeID:BarcodeID,
             FoodDescription: FoodDescription,       
             AllergyStatus :AllergyStatus,    
             RequestStatus :RequestStatus,
@@ -255,7 +257,7 @@ router2.get("/ListFoodfree",isLoggedIn, checkAuthor,isLoggedIn2, checkAuthor2  ,
 
 
 
-//the Last two Control will be update the database for courses  
+//To update the info for Food Prodect.
 router2.post("/FoodFreeUpdate/:FoodFreeID",isLoggedIn, checkAuthor, (req, res) => {
 
 
@@ -267,7 +269,9 @@ router2.post("/FoodFreeUpdate/:FoodFreeID",isLoggedIn, checkAuthor, (req, res) =
     
 
     const Food_Free_Name = req.body.Food_Free_Name;
+    const BarcodeID = req.body.BarcodeID;
     const FoodDescription  = req.body.FoodDescription;
+    
     const FoodType=req.body.FoodType;
     const AllergyStatus = req.body.AllergyStatus;
     const RequestStatus = req.body.RequestStatus;
@@ -282,10 +286,12 @@ console.log(RequestStatus +" kkkk")
     if (adminlogin) {
      
       FoodFreeDB.findById(FoodFreeID).then((foodfreevalue) => {
-      //  foodfreevalue.Food_Free_Name=Food_Free_Name,
-      //  foodfreevalue.FoodDescription= FoodDescription,       
-        //  foodfreevalue.AllergyStatus =AllergyStatus,   
-       // foodfreevalue.FoodType=FoodType,
+       
+       foodfreevalue.Food_Free_Name=Food_Free_Name,
+       foodfreevalue.BarcodeID=BarcodeID,
+       foodfreevalue.FoodDescription= FoodDescription,       
+       foodfreevalue.AllergyStatus =AllergyStatus,   
+      foodfreevalue.FoodType=FoodType,
         foodfreevalue.RequestStatus =RequestStatus,
         
              
