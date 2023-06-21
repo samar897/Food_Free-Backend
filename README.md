@@ -11,7 +11,7 @@ The idea of the project is a search for the barcode number, and the result of th
 # Render-deployment: 
 ## https://food-free.onrender.com/
 
-<img src="/images/HomepageBackend.png" width="800" height="500">
+<img src="/images/HomePageBackend.png" width="800" height="500">
 
 # This is a brief description of My project.
 
